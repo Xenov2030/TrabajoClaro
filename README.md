@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/brand/logo-horizontal-dark.svg">
+    <img src="public/brand/logo-horizontal.svg" alt="TrabajoClaro: símbolo y nombre del producto" width="316" height="64">
+  </picture>
+</p>
+
 # TrabajoClaro
 
 **Cada trabajo en orden. Cada cobro, claro.**
@@ -284,6 +291,14 @@ docs/                     Alcance, contenido, capturas, diseño e informes
 ```
 
 ## Identidad de marca
+
+<p>
+  <img src="public/icon-192.png" alt="Icono de TrabajoClaro para la aplicación" width="96" height="96">
+  &nbsp;
+  <img src="public/favicon-32x32.png" alt="Favicon de TrabajoClaro a 32 píxeles" width="32" height="32">
+</p>
+
+**Símbolo de la aplicación y favicon.** Comparten el marco abierto y el trazo escalonado del logotipo. Los archivos de iconos existen; la instalación PWA sigue pendiente.
 
 Nombre provisional **TrabajoClaro**; eslogan **Cada trabajo en orden. Cada cobro, claro.** La identidad está integrada en landing, acceso, registro, panel, demo y documentos públicos. El componente [brand-logo](resources/views/components/brand-logo.blade.php) usa SVG escalables y texto HTML para el eslogan; los tokens de color/tipografía están en `resources/css/app.css`.
 

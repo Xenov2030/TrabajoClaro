@@ -15,6 +15,8 @@ El código identifica la prueba como `2026.10-beta.2` en `config/beta.php`; ese 
 
 ### Agregados
 
+- README con logotipo visible que adapta su variante al tema claro/oscuro de GitHub y muestras reales del icono de aplicación y favicon.
+
 - Identidad provisional integrada: símbolo original sobre grilla, logotipo SVG horizontal, eslogan HTML, variantes claro/oscuro/mono y muestra local `/marca`.
 - Manrope alojada localmente con licencia OFL/procedencia; favicon SVG/ICO, PNG y metadatos sin promesa de modo offline.
 - `docs/MARCA.md` con uso, recursos y búsqueda externa bloqueada (disponibilidad no determinada).
