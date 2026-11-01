@@ -51,7 +51,7 @@ No se creó un proyecto, contrató un servicio ni modificó la base de Jornadapp
 
 ## 5. Comprobación pública obligatoria
 
-URL proporcionada por el titular: `https://trabajo-claro-git-main-xenov.vercel.app/`. Se observó en sus capturas un deployment anterior fallido (`STATIC_BUILD_NO_OUT_DIR`). La red de desarrollo bloqueó el acceso a ese dominio (`CONNECT 403` del proxy, sin llegar al sitio). **No se acredita que esta URL ya ejecute la migración.**
+**URL pública verificada el 2026-11-01:** https://trabajo-claro-orpin.vercel.app/. El recorrido principal pasó contra Supabase real en móvil/escritorio: [resultados y límites](VERIFICACION_MIGRACION.md#verificación-pública--2026-11-01). El enlace de rama `trabajo-claro-git-main-xenov.vercel.app` redirigió al login de Vercel; no usarlo como acceso directo para testers. Los errores de build y de red descritos en informes anteriores son históricos. Correo/Google, cron, respaldos, disponibilidad continua y PWA no quedan aprobados por el recorrido de demo.
 
 Después del redeploy, verificar desde navegador real y otra red:
 

@@ -1,10 +1,26 @@
 # Changelog de TrabajoClaro
 
-Primer registro documental del estado observado. **No se reconstruye una cronología anterior ni se asignan fechas de lanzamiento sin evidencia.** No hay release público o despliegue externo verificados.
+Primer registro documental del estado observado. **No se reconstruye una cronología anterior ni se asignan fechas de lanzamiento sin evidencia.** No se asignan etiquetas de release históricas; el despliegue público y su alcance verificado se registran más abajo.
 
-El código identifica la prueba como `2026.10-beta.2` en `config/beta.php`; ese valor no se convierte aquí en una versión histórica publicada.
+El código Next.js identifica la beta como `0.2.0-beta.1`. El identificador Laravel `2026.10-beta.2` pertenece a la etapa histórica conservada en `legacy/laravel`. Ninguno acredita por sí solo una versión etiquetada.
 
-## Sin publicar
+## 2026-11-01 · Registro de verificación pública
+
+Agregados:
+
+- URL comprobada `https://trabajo-claro-orpin.vercel.app/` y evidencia pública del recorrido de demo en móvil/escritorio, PDF, feedback y solicitud de piloto.
+- Pruebas públicas de RLS y mutaciones entre dos demos propias, persistencia al recargar y logout.
+
+Correcciones:
+
+- README, estado beta, guía de testers y despliegue distinguen los resultados públicos actuales de los informes locales/históricos. Registro por correo/Google, PWA y operación del proveedor siguen pendientes.
+
+Cambios relevantes:
+
+- Esta entrada registra pruebas y documentación, sin cambios de código ni nuevas funciones. No incorpora credenciales, tokens, datos personales ni una promesa de disponibilidad continua.
+
+## Historial de implementación sin etiqueta de release
+
 
 ### Migración autorizada a Next.js y Supabase
 

@@ -1,6 +1,6 @@
 # Guion de diez minutos · migración Next.js/Supabase
 
-La URL entregada por el titular es `https://trabajo-claro-git-main-xenov.vercel.app/`, **sin funcionamiento de la versión migrada verificado**. Primero el operador debe completar [la configuración](DESPLIEGUE_SUPABASE_VERCEL.md) y confirmar que abre la versión `0.2.0-beta.1`. No instalar como PWA: sigue pendiente. Usar navegador normal con conexión y datos ficticios.
+**URL pública:** [https://trabajo-claro-orpin.vercel.app/](https://trabajo-claro-orpin.vercel.app/). El recorrido principal de demo se verificó el 2026-11-01 con versión `0.2.0-beta.1`, en móvil y escritorio, contra Supabase real. Usar ese dominio; el enlace de rama redirigió al login de Vercel. No instalar como PWA: sigue pendiente. Usar navegador normal con conexión y datos ficticios. [Evidencia y límites](VERIFICACION_MIGRACION.md#verificación-pública--2026-11-01).
 
 1. **0–1 min:** abrir landing; «Probar demo» crea usuario anónimo y negocio privado si Supabase lo permite. Alternativa «Crear cuenta»: correo/contraseña propios, confirmar correo si se solicita; Google solo si fue configurado.
 2. **1–2:** completar negocio, rubro, país, zona y ARS. Crear «Cliente ficticio beta», sin contacto real.

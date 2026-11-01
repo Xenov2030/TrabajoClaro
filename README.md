@@ -11,13 +11,15 @@
 
 Aplicación para pequeños negocios de servicios y fabricación por encargo: cliente → presupuesto → aprobación → trabajo → cobro. Busca reunir alcance acordado, próximas acciones y saldos. La utilidad y disposición a pagar son hipótesis pendientes de validar; no hay métricas comerciales, usuarios ni testimonios acreditados.
 
-**Autor:** [Nicolas Aguirres](https://nicolasaguirrescode.com/). **Estado:** beta en migración a Next.js + Supabase, identificador `0.2.0-beta.1`; no versión estable ni PWA instalada verificada. Última revisión: 2026-10-31 (Argentina).
+**Autor:** [Nicolas Aguirres](https://nicolasaguirrescode.com/). **Estado:** beta pública con recorrido principal verificado en Next.js + Supabase, identificador `0.2.0-beta.1`; no versión estable ni PWA instalada verificada. Última revisión: 2026-11-01 (Argentina).
 
 La versión Laravel/MySQL se conserva en [legacy/laravel](legacy/laravel) y en el historial Git; las pruebas y procedimientos anteriores están en [docs/legacy-laravel](docs/legacy-laravel). **Sus resultados no acreditan esta nueva arquitectura.** No se eliminaron ni importaron automáticamente las bases/volúmenes MySQL existentes.
 
 ## Publicación y configuración
 
-El titular conectó GitHub con Vercel y proporcionó `https://trabajo-claro-git-main-xenov.vercel.app/`. Sus capturas mostraron el deployment Laravel fallido porque Vercel esperaba `dist`. La migración configura **Next.js y `.next`**; falta comprobar su deployment real. El proxy de desarrollo bloqueó ese dominio antes de llegar al sitio. No se declara URL funcional verificada.
+**URL pública verificada:** [https://trabajo-claro-orpin.vercel.app/](https://trabajo-claro-orpin.vercel.app/). El 2026-11-01 se probaron en Chromium móvil y escritorio demo, cliente, presupuesto, publicación, aceptación independiente, trabajo, cobro parcial/saldo, PDF, feedback y solicitud de piloto. También se comprobaron aislamiento de lectura/mutación entre dos demos, recarga y logout. [Evidencia y límites](docs/VERIFICACION_MIGRACION.md#verificación-pública--2026-11-01).
+
+El enlace de rama `trabajo-claro-git-main-xenov.vercel.app` redirigió al login de Vercel; usar el dominio público anterior para testers. La disponibilidad continua, cuotas y suspensión del proveedor siguen sin comprobarse.
 
 **Paso a paso:** [conectar Supabase y Vercel](docs/DESPLIEGUE_SUPABASE_VERCEL.md). Requiere un proyecto Supabase dedicado, ejecutar SQL, configurar autenticación y dos variables públicas de build. Google permite iniciar sesión; **la base PostgreSQL de Supabase guarda los datos**, no el Drive de cada persona.
 
@@ -27,8 +29,8 @@ La aplicación no usa claves privilegiadas de Supabase. Sin configuración muest
 
 | Función | Estado de la migración |
 | --- | --- |
-| Landing, identidad, logo/favicons, acceso, registro, feedback y beta | Pantallas portadas; carga y diseño comprobados localmente. |
-| Ingreso con correo/contraseña, Google y demo anónima | Integración Supabase implementada; **Auth alojado, OAuth y correo pendientes de configurar y probar**. |
+| Landing, identidad, logo/favicons, acceso, registro, feedback y beta | Pantallas y recursos comprobados también en el dominio público; esto no acredita registro por correo completo. |
+| Ingreso y cuentas | Alta anónima alojada y logout verificados públicamente. **Registro/login con correo, confirmación y Google siguen pendientes de comprobación.** |
 | Negocio propio y clientes | RPC/RLS por propietario, edición y archivo sin borrar historia; pruebas reales de PostgreSQL. |
 | Presupuesto y totales | Borrador manual, ítems, moneda, descuento, impuesto, anticipo, alcance/condiciones; cálculo exacto PostgreSQL y prevalidación BigInt. |
 | Versiones y decisión pública | Snapshot, token con hash, revocación/sustitución/vencimiento, nombre y confirmación. Lectura no decide. RPC probado con PostgreSQL. |
@@ -83,7 +85,7 @@ El arnés adicional `playwright.database.config.js` usa PostgreSQL/PostgREST rea
 
 ## Testers y datos
 
-Hasta comprobar el deployment y conectar Supabase, no invitar testers como si la beta pública funcionara. [Guion de diez minutos](docs/TESTERS.md): demo o cuenta propia → cliente ficticio → presupuesto → publicación → aceptación en otra sesión → trabajo → cobro parcial → saldo → feedback.
+El recorrido principal de demo ya se comprobó en el dominio público. Invitar inicialmente a pruebas acompañadas con datos ficticios; no presentar los pendientes como disponibles. [Guion de diez minutos](docs/TESTERS.md): demo o cuenta propia → cliente ficticio → presupuesto → publicación → aceptación en otra sesión → trabajo → cobro parcial → saldo → feedback.
 
 - Requiere conexión. Sin trabajo offline ni sincronización local prometida.
 - Demo: expira a las 24 h; limpieza física requiere cron. Usuarios anónimos de Auth requieren mantenimiento separado.
@@ -114,7 +116,7 @@ legacy/laravel/          Implementación anterior conservada
 docs/                    Estado actual, despliegue y guion de prueba
 ```
 
-Despliegue, cron, respaldo/restauración y límites de rollback: [guía](docs/DESPLIEGUE_SUPABASE_VERCEL.md). No se ejecutan migraciones ni borrados de datos durante el build de Vercel. La publicación del código en GitHub no acredita deploy exitoso.
+Despliegue, cron, respaldo/restauración y límites de rollback: [guía](docs/DESPLIEGUE_SUPABASE_VERCEL.md). No se ejecutan migraciones ni borrados de datos durante el build de Vercel. La publicación del código en GitHub por sí sola no acredita deploy exitoso; el recorrido público indicado sí fue comprobado por separado.
 
 ## Evolución y base editorial
 

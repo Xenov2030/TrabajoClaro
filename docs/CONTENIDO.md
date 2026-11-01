@@ -11,3 +11,7 @@ Desafíos comprobables: deployment anterior buscaba `dist` aunque Vite emitía `
 Aprendizajes: separar validación de interfaz, reglas de DB y servicios externos; una sesión preemitida permite probar RPC pero no prueba Google/Auth; compilar no demuestra deployment ni instalación PWA.
 
 Codex implementó código/migración/pruebas/documentación en esta sesión. La autorización de migrar está en el pedido del titular; no hay evidencia de revisión humana exhaustiva, entrevistas ni resultados comerciales. No atribuir decisiones o revisión a Nicolas sin confirmación. [Estado vigente](ESTADO_BETA.md) y [pruebas/límites](VERIFICACION_MIGRACION.md) son la fuente actual; [material Laravel histórico](legacy-laravel/CONTENIDO.md) no se usa para afirmar cobertura de la migración.
+
+## Evidencia pública incorporada el 2026-11-01
+
+Se verificó https://trabajo-claro-orpin.vercel.app/ con datos ficticios en Chromium móvil/escritorio: demo, cliente, presupuesto, aceptación independiente, trabajo, cobro parcial/saldo, PDF, feedback y piloto. Dos demos no pudieron leer ni mutar registros ajenos; recarga y logout comprobados. Son pruebas técnicas, no usuarios comerciales ni validación de mercado. Registro/login por correo, Google, PWA y operación del proveedor siguen pendientes. [Alcance exacto y evidencia](VERIFICACION_MIGRACION.md#verificación-pública--2026-11-01).

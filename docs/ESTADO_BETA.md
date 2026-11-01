@@ -1,6 +1,6 @@
 # Estado consolidado · migración a Next.js/Supabase
 
-Revisión 2026-10-31, Argentina. Versión de código `0.2.0-beta.1`, no lanzamiento público acreditado. El pedido posterior autorizó cambiar de Laravel/MySQL a Next.js/PostgreSQL de Supabase para Vercel; no autoriza contratar servicios ni modificar Jornadapp.
+Revisión 2026-11-01, Argentina. Versión de código `0.2.0-beta.1`; beta pública con recorrido de demo verificado en https://trabajo-claro-orpin.vercel.app/. No versión estable ni cumplimiento total del alcance. El pedido posterior autorizó cambiar de Laravel/MySQL a Next.js/PostgreSQL de Supabase para Vercel; no autoriza contratar servicios ni modificar Jornadapp.
 
 La lista exhaustiva de pedidos anteriores está conservada en [el cierre Laravel](legacy-laravel/ESTADO_BETA.md). **Sus 34 pruebas PHP y ocho recorridos anteriores no acreditan la migración.** Esta matriz actualiza el estado vigente de esos grupos de requisitos. No se presenta una pantalla como función completa.
 
@@ -14,11 +14,11 @@ Estados: **Implementado y verificado** (entorno/prueba explícitos); **Implement
 | Favicon SVG/ICO/PNG, Apple 180, iconos 192/512 | Implementado y verificado | Archivos reales conservados y carga en navegador; no todas las barras de sistema/dispositivos físicos. |
 | Disponibilidad de nombre/dominios | Parcial | Intentos externos bloqueados previamente; sin conflicto confirmado ni disponibilidad legal determinada. No registro de marca/dominio. |
 | Firma exacta del autor, portfolio, foco, nueva pestaña y enlace PDF | Implementado y verificado | Componente único `Author`, todas las rutas, impresión PDF; sin firma en CSV/técnicos. Autor separado del logo de producto. |
-| Landing y solicitud de piloto persistida/protegida | Implementado y verificado | Formulario RPC `tc_send_pilot`, validación y honeypot; escritura en prueba SQL. Sin correo automático, sin envío real público probado. |
-| Registro, login/logout, Google, confirmación de correo | Implementado, pendiente de verificar | Cliente Supabase integrado; exige proveedor real y Redirect URLs. Sesiones preemitidas de pruebas **no verifican Auth, SMTP ni OAuth**. |
+| Landing y solicitud de piloto persistida/protegida | Implementado y verificado | Formulario RPC `tc_send_pilot`, validación y honeypot; escritura en prueba SQL. Solicitud almacenada también desde navegador público; no correo automático. |
+| Registro, login/logout, Google, confirmación de correo | Implementado, pendiente de verificar | Alta anónima y logout verificados públicamente. Registro/login por correo, entrega/confirmación y Google siguen pendientes; no equivalencia con el arnés local. |
 | Negocio: nombre, rubro, país, zona y moneda | Implementado y verificado | Setup/settings autorizados por UID; configuración SQL probada y panel con negocio en navegador local. |
 | Miembros/invitaciones/traducción integral | Parcial | Un propietario por negocio, sin equipo ni selector de idioma. Interfaz en español argentino. |
-| Demo directa sin credenciales compartidas y aislada | Parcial | Código de Auth anónimo y seed de cliente. SQL prueba marca/expiración/aislamiento; alta real anónima requiere habilitación y prueba en Supabase. |
+| Demo directa sin credenciales compartidas y aislada | Implementado y verificado | Alta anónima y recorrido públicos móvil/escritorio; dos demos no pueden leer ni mutar IDs ajenos. Expiración/poda verificadas en SQL local, cron alojado pendiente. |
 | Clientes: crear, editar, buscar, archivar sin borrar historia | Implementado y verificado | RPC/RLS y flujo de navegador con base real; archivado no elimina registros. Historial visual de movimientos por cliente pendiente de paridad. |
 | Presupuesto: campos/ítems/categorías, numeración y borrador | Implementado y verificado | SQL y navegador: alta y revisión. Descuento, impuesto, anticipo, condiciones y ARS/USD. |
 | Cálculos exactos, límites y redondeo | Implementado y verificado | PostgreSQL numeric/bigint en servidor, BigInt en cliente; pruebas de cantidad/precio inválidos, descuento, límite, redondeo. No float monetario. |
@@ -39,7 +39,7 @@ Estados: **Implementado y verificado** (entorno/prueba explícitos); **Implement
 | Advertencia al salir y conflictos de edición | Parcial | `beforeunload` para formularios sucios; revisión esperada en RPC de presupuesto/trabajo probada SQL. No merge automático, ni protección de todo campo de cliente/configuración. |
 | Errores de red/reintento sin duplicación general | Parcial | Mensajes y reintento de carga; idempotencia de cobros/conversión/decisión. No idempotencia universal de nuevas altas ni garantía tras recargar formulario de cobro. |
 | Búsqueda/filtros/fechas/paginación y limpiar | Parcial | Tres listas con filtros y páginas de 20 sobre máximo 1.000 cargados; no paginación remota ni conservación al volver al detalle. Fechas se refieren a creación. |
-| Feedback visible con pantalla/contacto/versión, sin adjuntos | Implementado y verificado | SQL/RPC y prueba de navegador con base real. Pantalla por categoría, no URL/token ni formulario completo. |
+| Feedback visible con pantalla/contacto/versión, sin adjuntos | Implementado y verificado | SQL/RPC y envío público con confirmación. Pantalla por categoría, no URL/token ni formulario completo. |
 | Bandeja privada de producto con estados | Pendiente | Sin administrador web, estados ni suplantación. Consulta solo por operador autorizado en SQL Editor. |
 | Perfil/contraseña/recuperación/baja confirmada | Pendiente | No prometer que el SMTP o el proveedor de Auth por sí solos completan flujos que no están en la interfaz. |
 | Cuenta persistente y limpieza documentada | Parcial | PostgreSQL persiste fuera de Vercel; demo expira y poda SQL probadas. Cron alojado/backup/restauración/reinicio real pendientes. No limpieza automática de cuentas registradas. |
@@ -47,7 +47,7 @@ Estados: **Implementado y verificado** (entorno/prueba explícitos); **Implement
 | Salud sin datos | Implementado y verificado | `/up` responde estado/versión; no verifica DB/cron. |
 | Errores investigables sin secretos | Parcial | Supabase/Vercel aportan logs externos; cliente muestra mensajes sin captura de formularios. No se portó el logger PHP ni se configuraron alertas/monitorización de producción. |
 | Cron/colas/backup/restauración/rollback | Parcial | Función de poda SQL probada, pasos documentados. Programación cron y recuperación del proveedor no ensayadas; no worker de aplicación. Revertir código no revierte SQL ni vuelve Laravel compatible con Vercel. |
-| URL HTTPS/persistencia/servicio independiente de PC | Parcial | URL de Vercel proporcionada, deployment anterior fallido; acceso de este entorno bloqueado. Falta configurar Supabase y verificar deployment nuevo. No enlace funcional inventado. |
+| URL HTTPS/persistencia/servicio independiente de PC | Parcial | Dominio HTTPS público y recorrido completo verificados el 2026-11-01; recarga conserva sesión/negocio. Falta reinicio/redeploy, disponibilidad continua, cuotas y operación del proveedor. |
 | PWA: id/standalone/maskable/instalar/instrucciones/instalación real | Pendiente | Manifest/iconos previos no completan PWA. Sigue `display: browser`, sin `/instalar` ni service worker/offline. No APK. |
 | Móvil/escritorio, errores/vacíos/carga, contraste y teclado | Parcial | Pruebas actuales y capturas 360×800/1440×1000; sin desborde en rutas públicas y trabajo. Revisión de contraste de marca conservada. Recorrido completo exclusivamente con teclado, Safari/Firefox/dispositivos y certificación pendientes. |
 | README, changelog, material editorial, guías/limitaciones reales | Implementado y verificado | Documentación actual separada de históricos; no publicaciones, fechas históricas, métricas ni revisiones humanas inventadas. |
@@ -57,4 +57,4 @@ Estados: **Implementado y verificado** (entorno/prueba explícitos); **Implement
 
 [Verificación actual](VERIFICACION_MIGRACION.md), [guion de diez minutos](TESTERS.md), [operación/feedback](OPERACION.md) y [paso a paso de publicación](DESPLIEGUE_SUPABASE_VERCEL.md).
 
-Bloqueo externo: crear/conectar un Supabase dedicado, ejecutar SQL, habilitar Auth y cargar las dos variables públicas en Vercel; revisar su preset/overrides y redeploy. No pedir ni publicar claves privadas en chat. Google es opcional y requiere configuración propia. La beta no debe darse por lista basándose solo en el build.
+La conexión Vercel/Supabase y el alta anónima ya permitieron verificar el recorrido público. [Resultados públicos](VERIFICACION_MIGRACION.md#verificación-pública--2026-11-01). Siguen pendientes correo/Google, PWA y operación/recuperación del proveedor, además de las funciones marcadas arriba. No pedir ni publicar claves privadas en chat; no declarar todo el alcance completo.

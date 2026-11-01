@@ -1,6 +1,6 @@
 # Verificación de la migración
 
-Revisión: 2026-10-31 (Argentina). Código `0.2.0-beta.1`, Next.js 16.4.3, React 19 y Node 24.19.0 según instalación/lock. Sin URL pública de la migración acreditada. La autorización de cambio de stack no incluye modificar Jornadapp ni contratar servicios.
+Última revisión: 2026-11-01 (Argentina). Código `0.2.0-beta.1`, Next.js 16.4.3, React 19 y Node 24.19.0 según instalación/lock. URL pública y recorrido de demo verificados el 2026-11-01; ver el alcance más abajo. La autorización de cambio de stack no incluye modificar Jornadapp ni contratar servicios.
 
 ## Resultados locales
 
@@ -42,8 +42,29 @@ Capturas/PDF quedan en `test-results/public` y `test-results/integration`, ignor
 - Una etiqueta exacta de prueba omitía el asterisco accesible de un campo requerido; se corrigió el selector y se repitió el recorrido real.
 - Fechas de cobro se prueban con la zona del negocio; usar `current_date` UTC en el ensayo podía representar mañana en Argentina.
 
+## Verificación pública · 2026-11-01
+
+**Dominio exacto:** https://trabajo-claro-orpin.vercel.app/ · versión visible `0.2.0-beta.1`. Pruebas contra Vercel y Supabase reales, sin sesiones preemitidas ni respuestas simuladas. La habilitación de acceso anónimo fue realizada por el titular en Supabase; las pruebas no modificaron configuración ni código.
+
+| Comprobación pública | Resultado observado |
+| --- | --- |
+| Acceso HTTPS y salud | Landing HTTP 200 sin login de Vercel; `/up` HTTP 200 con estado y versión. No certifica salud de DB/cron. |
+| Pantallas y recursos | 12 comprobaciones de rutas (landing, marca, acceso, registro, feedback y beta × móvil/escritorio), sin desbordes horizontales ni errores JS detectados. SVG/ICO/PNG/Apple/manifest respondieron HTTP 200 con tipos adecuados; firma única, destino y foco comprobados. |
+| Demo real | Alta anónima en Supabase y panel del negocio aislado, sin cuenta compartida. |
+| Recorrido móvil | Chromium 360×800: crear cliente y presupuesto con dos ítems, total ARS 1.500,50; publicar; abrir en contexto independiente, aceptar y guardar PDF; convertir a trabajo, registrar ARS 500 y comprobar saldo ARS 1.000,50; guardar feedback y solicitud de piloto. Aprobado. |
+| Recorrido escritorio | Chromium 1440×1000: mismo recorrido con otra demo y datos ficticios. Aprobado. |
+| PDFs públicos | Dos archivos (móvil/escritorio), una aparición de la firma exacta y anotación del enlace al portfolio. No prueba de todos los visores PDF. |
+| Aislamiento de lectura | Demo A crea y lee su cliente; consulta directa por el mismo ID desde B devuelve lista vacía por RLS. |
+| Aislamiento de mutación | RPC de B para archivar el ID de A rechazada (HTTP 400, registro no encontrado en su negocio); A conserva sus datos intactos. Solo IDs de demos creadas por esta prueba. |
+| Persistencia de sesión | Recargar conserva acceso al panel y negocio. No es un ensayo de reinicio/redeploy o recuperación del proveedor. |
+| Cierre de sesión | Logout real; volver a `/app` solicita ingreso y no muestra datos privados. |
+
+Se crearon exclusivamente usuarios anónimos/demos y documentos ficticios; feedback y solicitudes de piloto se identifican como pruebas técnicas. No se borraron registros ajenos ni se enviaron WhatsApp/correos. Los datos de demo quedan sujetos a la retención y al cron configurado; no se afirma que ya se hayan eliminado. Las solicitudes/feedback de prueba no son adopción ni métricas comerciales.
+
+Evidencia de esta sesión: reportes temporales `/tmp/tc-public-flow-results/report.json` y `/tmp/tc-live-isolation-report.json`; capturas y PDFs en `/tmp/tc-public-flow-results/`. Son artefactos temporales, no enlaces públicos permanentes. Este informe conserva los resultados en Git sin subir claves, JWT, IDs de cuentas, tokens de documentos ni capturas de configuración.
+
+Incidencias del despliegue identificadas: el enlace de rama redirigía al login de Vercel; un build anterior no incorporaba Supabase y el siguiente rechazó una Project URL con `/rest/v1/`. El titular corrigió la URL base y redesplegó. Después, Supabase devolvió `anonymous_provider_disabled`; al habilitarlo el titular, el recorrido público pasó. El error `CONNECT 403` pertenecía al entorno anterior y ya no bloqueó el dominio público durante esta verificación.
+
 ## Pendiente, sin equivalencias falsas
 
-No se verificaron registro/login/logout reales, OAuth Google, entrega de correo, alta anónima alojada, permisos del proyecto Supabase real, deployment Vercel actualizado, cuotas/suspensión, persistencia tras redeploy del proveedor, cron alojado, backup/restauración de Supabase, instalación PWA/standalone, Safari/Firefox, dispositivos físicos, carga concurrente, auditoría independiente o recorrido completo solo con teclado. Las pruebas Laravel y su restauración MySQL quedan históricas y no sustituyen estas comprobaciones.
-
-La conexión Vercel/GitHub está informada por el titular y las capturas del build anterior, pero el acceso desde esta tarea fue bloqueado por el proxy (`CONNECT 403`, HTTP de origen no obtenido). No se inventó una URL alternativa ni se cambió la salida a assets estáticos para aparentar un backend desplegado.
+No se verificaron registro/login reales con correo y contraseña, confirmación/entrega de correo, OAuth Google, cuotas/suspensión/disponibilidad continua, persistencia tras reinicio o redeploy del proveedor, cron alojado, backup/restauración de Supabase, instalación PWA/standalone, Safari/Firefox, dispositivos físicos, carga concurrente, auditoría independiente o recorrido completo solo con teclado. Las pruebas Laravel y su restauración MySQL quedan históricas y no sustituyen esas comprobaciones. La PWA continúa sin implementar: manifest `display: browser`, sin `id` explícito ni icono maskable/service worker.
