@@ -1,0 +1,42 @@
+{
+  "review_date": "2026-11-01",
+  "url": "https://trabajo-claro-orpin.vercel.app/instalar",
+  "code_commit": "51f403c",
+  "method": "Chromium automatizado con perfil persistente, sin instalación nativa completada",
+  "checks": [
+    {
+      "device": "mobile",
+      "installability": [],
+      "worker": {
+        "scope": "/",
+        "script": "/sw.js",
+        "caches": []
+      },
+      "overflow": false,
+      "logo": true,
+      "signature": "https://nicolasaguirrescode.com/",
+      "errors": []
+    },
+    {
+      "device": "desktop",
+      "installability": [],
+      "worker": {
+        "scope": "/",
+        "script": "/sw.js",
+        "caches": []
+      },
+      "overflow": false,
+      "logo": true,
+      "signature": "https://nicolasaguirrescode.com/",
+      "errors": []
+    }
+  ],
+  "maskable_512": {
+    "http": 200,
+    "format": "PNG",
+    "width": 512,
+    "height": 512
+  },
+  "worker_no_store": true,
+  "native_install": "Pendiente: intento local rechazado con kWebAppDisabled; no se comprobó standalone ni Auth desde app instalada."
+}

@@ -10,7 +10,7 @@ Agregados:
 
 - Botón de instalación por evento nativo y acción del usuario, instrucciones responsive `/instalar`, detección iOS/Android/escritorio y modo aplicación sin insistencia. Dentro de las instrucciones no se muestra un falso botón de instalación cuando falta el diálogo nativo.
 - Manifest con id estable, standalone y maskable 192/512 con margen seguro; metadatos Apple y worker de red sin caché de documentos, Auth, datos ni escrituras.
-- Pruebas de privacidad del worker, eventos de instalación/actualización e instrucciones; guía de instalación y límites verificables.
+- Pruebas de privacidad del worker, eventos de instalación/actualización e instrucciones; guía de instalación y límites verificables. Reporte público sanitizado del deployment HTTPS: carga, criterios Chromium, scope y CacheStorage vacío.
 
 Correcciones:
 

@@ -76,3 +76,5 @@ Se pulsó «Continuar con Google» desde `/login` en el dominio público, sin in
 ## Instalación PWA · 2026-11-01
 
 Se implementaron controles nativos condicionados por disponibilidad, instrucciones `/instalar`, manifest con identidad estable/standalone, maskable y worker de red sin caché privada/offline. Las pruebas emulan eventos para verificar interacción, no certifican instalación real. Un perfil persistente de Chromium devolvió cero errores de instalabilidad, pero `PWA.install` falló con `kWebAppDisabled`; no se comprobó apertura standalone ni login/logout desde una aplicación instalada. El callback ahora redirige automáticamente al negocio al recibir sesión; prueba local con DB y sesión preemitida, no un ingreso Google independiente. [Detalle y guion manual](PWA.md).
+
+La PWA publicada también se verificó en HTTPS: `/instalar`, worker activo con ámbito raíz/CacheStorage vacío, icono maskable válido y cero errores de instalabilidad Chromium en móvil/escritorio. [Reporte público sanitizado](evidencia/pwa-2026-11-01.json). Esto no reemplaza la prueba de instalación física ni acceso desde una app instalada.

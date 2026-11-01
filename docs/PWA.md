@@ -4,7 +4,7 @@ Revisión: 2026-11-01 (Argentina). La instalación web está implementada; la co
 
 ## Cómo instalar
 
-Página del entorno publicado: https://trabajo-claro-orpin.vercel.app/instalar. Esta ruta debe corresponder al commit con PWA; el estado del deployment se comprueba por separado. El acceso normal por navegador se conserva.
+Página del entorno publicado: https://trabajo-claro-orpin.vercel.app/instalar. Esta ruta y sus recursos PWA se comprobaron públicamente por HTTPS después de publicar la implementación. El acceso normal por navegador se conserva.
 
 - En la landing hay «Instalar TrabajoClaro» y en el pie «Instalar app». Si el navegador emite `beforeinstallprompt`, el botón solicita su diálogo nativo **solo tras pulsarlo**. Si no, abre instrucciones; no simula una instalación.
 - Chrome/Edge Android: menú → Instalar aplicación o Añadir a pantalla de inicio. Si solo ofrece acceso directo, puede abrir una pestaña; no confundirlo con standalone.
@@ -37,6 +37,10 @@ Página del entorno publicado: https://trabajo-claro-orpin.vercel.app/instalar. 
 Las pruebas de UI/criterios no acreditan una instalación completa. Hace falta verificar manualmente el diálogo, icono/pantalla de inicio, apertura standalone, login/logout/Google y navegación desde la app instalada en Android, iOS y escritorio disponibles. No se declara acceso offline ni sesión instalada comprobada.
 
 Resultados locales de esta implementación: **7 pruebas unitarias**, **10 pruebas de navegador móvil/escritorio** y **2 recorridos con PostgreSQL real aprobados**, además de build Next.js aprobado. Los casos de instalación emulados y el intento nativo rechazado se distinguen en la tabla anterior.
+
+## Comprobación del deployment público
+
+El 2026-11-01 se abrió `/instalar` en Chromium con perfil persistente a 360×800 y 1440×1000: cero errores de instalabilidad, sin desborde horizontal ni errores JS detectados; logo/firma cargados. Worker activo en `/sw.js`, alcance `/`, CacheStorage vacío y respuesta sin caché. El maskable público respondió HTTP 200 y es PNG real 512×512. No se disparó un evento de instalación falso para esta comprobación, ni se completó instalación nativa. [Reporte sin credenciales ni datos personales](evidencia/pwa-2026-11-01.json).
 
 ## Guion de prueba manual
 
