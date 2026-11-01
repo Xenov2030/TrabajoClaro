@@ -1,0 +1,96 @@
+-- Real PostgreSQL tests; auth.uid()/jwt() use claims set by this isolated harness.
+-- This does not test hosted Supabase Auth, Google OAuth or SMTP.
+begin;
+insert into auth.users(id) values('11111111-1111-4111-8111-111111111111'),('22222222-2222-4222-8222-222222222222'),('33333333-3333-4333-8333-333333333333');
+do $$
+declare b1 jsonb;b2 jsonb;c1 uuid;c2 uuid;q1 uuid;q2 uuid;v jsonb;v2 jsonb;token text;j uuid;again uuid;p uuid;key uuid:=gen_random_uuid();d jsonb;outcome jsonb;counted integer;
+begin
+ perform set_config('request.jwt.claim.sub','11111111-1111-4111-8111-111111111111',true);
+ set local role authenticated;
+ b1:=public.tc_command('setup','{"name":"Negocio Uno","industry":"Herrería","country":"AR","timezone":"America/Argentina/Buenos_Aires","currency":"ARS"}');
+ c1:=(public.tc_command('customer','{"data":{"name":"Cliente Uno","phone":"","email":"","notes":""}}')->>'id')::uuid;
+ d:=jsonb_build_object('customer_id',c1,'title','Estante','scope','Fabricación e instalación','issued_on',(now() at time zone 'America/Argentina/Buenos_Aires')::date,'expires_on',(now() at time zone 'America/Argentina/Buenos_Aires')::date+10,'currency','ARS','items','[{"description":"Fabricación","quantity":"1","unit_price":"1000.50"},{"description":"Instalación","quantity":"2","unit_price":"250"}]'::jsonb,'discount','0','tax_rate','0','advance','0');
+ q1:=(public.tc_command('quote',jsonb_build_object('data',d))->>'id')::uuid;
+ if (select (data->>'total_minor')::bigint from public.tc_records where id=q1)<>150050 then raise exception 'FAIL exact total';end if;
+ begin perform public.tc_command('quote',jsonb_build_object('data',d||'{"discount":"99999"}'));raise exception 'FAIL discount accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('quote',jsonb_build_object('data',d||'{"items":[{"description":"x","quantity":"-1","unit_price":"1"}]}'));raise exception 'FAIL quantity accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('quote',jsonb_build_object('data',d||'{"items":[{"description":"x","quantity":"1","unit_price":"1e2"}]}'));raise exception 'FAIL exponent accepted';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('quote',jsonb_build_object('id',q1,'revision',99,'data',d));raise exception 'FAIL stale edit accepted';exception when invalid_parameter_value then null;end;
+ v:=public.tc_command('publish',jsonb_build_object('id',q1));token:=v->>'token';
+ if (select count(*) from public.tc_records where kind='metric' and data->>'name'='first_quote_created')<>1 then raise exception 'FAIL first metric';end if;
+ if length(token)<>64 then raise exception 'FAIL token size';end if;
+ -- Publishing again replaces old token.
+ v2:=public.tc_command('publish',jsonb_build_object('id',q1));
+ set local role anon;
+ begin perform public.tc_public_quote(token);raise exception 'FAIL superseded available';exception when invalid_parameter_value then null;end;
+ token:=v2->>'token';outcome:=public.tc_public_quote(token);
+ if outcome->>'status'<>'pendiente' or outcome->'snapshot'->'customer'->>'name'<>'Cliente Uno' then raise exception 'FAIL public snapshot';end if;
+ if (outcome->'snapshot'->'customer') ? 'phone' then raise exception 'FAIL public contact leak';end if;
+ begin perform public.tc_public_quote(token,'{"decision":"aceptado","name":"Cliente","confirmed":false}');raise exception 'FAIL unconfirmed accepted';exception when invalid_parameter_value then null;end;
+ outcome:=public.tc_public_quote(token,'{"decision":"aceptado","name":"Cliente ficticio","confirmed":true}');
+ if outcome->>'status'<>'aceptado' then raise exception 'FAIL acceptance';end if;
+ begin perform public.tc_public_quote(token,'{"decision":"aceptado","name":"Cliente","confirmed":true}');raise exception 'FAIL double decision';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('convert',jsonb_build_object('id',q1));raise exception 'FAIL anon mutation';exception when insufficient_privilege then null;end;
+ set local role authenticated;
+ j:=(public.tc_command('convert',jsonb_build_object('id',q1))->>'id')::uuid;
+ again:=(public.tc_command('convert',jsonb_build_object('id',q1))->>'id')::uuid;
+ if again<>j then raise exception 'FAIL duplicate conversion';end if;
+ p:=(public.tc_command('pay',jsonb_build_object('id',j,'data',jsonb_build_object('amount','500','currency','ARS','paid_on',(now() at time zone 'America/Argentina/Buenos_Aires')::date,'method','transferencia','reference','','key',key)))->>'id')::uuid;
+ again:=(public.tc_command('pay',jsonb_build_object('id',j,'data',jsonb_build_object('amount','500','currency','ARS','paid_on',(now() at time zone 'America/Argentina/Buenos_Aires')::date,'method','transferencia','reference','','key',key)))->>'id')::uuid;
+ if again<>p then raise exception 'FAIL payment retry duplicated';end if;
+ if (select (data->>'amount_minor')::bigint from public.tc_records where id=j)-(select sum((data->>'amount_minor')::bigint) from public.tc_records where kind='payment' and data->>'job_id'=j::text)<>100050 then raise exception 'FAIL balance';end if;
+ begin perform public.tc_command('pay',jsonb_build_object('id',j,'data',jsonb_build_object('amount','501','currency','ARS','paid_on',(now() at time zone 'America/Argentina/Buenos_Aires')::date,'method','transferencia','reference','','key',key)));raise exception 'FAIL mismatched retry';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('pay',jsonb_build_object('id',j,'data',jsonb_build_object('amount','9999','currency','ARS','paid_on',(now() at time zone 'America/Argentina/Buenos_Aires')::date,'method','transferencia','key',gen_random_uuid())));raise exception 'FAIL overpayment';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('pay',jsonb_build_object('id',j,'data',jsonb_build_object('amount','1','currency','USD','paid_on',(now() at time zone 'America/Argentina/Buenos_Aires')::date,'method','efectivo','key',gen_random_uuid())));raise exception 'FAIL mixed currency';exception when invalid_parameter_value then null;end;
+ begin update public.tc_records set data='{}' where id=j;raise exception 'FAIL direct write';exception when insufficient_privilege then null;end;
+ perform public.tc_command('void',jsonb_build_object('id',p,'reason','Error de carga'));
+ if (select data->>'void_reason' from public.tc_records where id=p)<>'Error de carga' then raise exception 'FAIL void history';end if;
+ begin perform public.tc_command('publish',jsonb_build_object('id',q1));raise exception 'FAIL accepted republished';exception when invalid_parameter_value then null;end;
+ -- Second owner must see no first-owner records and cannot mutate IDs.
+ perform set_config('request.jwt.claim.sub','22222222-2222-4222-8222-222222222222',true);
+ b2:=public.tc_command('setup','{"name":"Negocio Dos","industry":"Carpintería","country":"AR","timezone":"America/Argentina/Buenos_Aires","currency":"USD"}');
+ select count(*) into counted from public.tc_records;if exists(select 1 from public.tc_records where business_id<>(b2->>'id')::uuid) then raise exception 'FAIL RLS read isolation';end if;
+ begin perform public.tc_command('archive',jsonb_build_object('id',c1));raise exception 'FAIL other customer mutation';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('convert',jsonb_build_object('id',q1));raise exception 'FAIL other quote conversion';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('pay',jsonb_build_object('id',j));raise exception 'FAIL other job payment';exception when invalid_parameter_value then null;end;
+ begin perform public.tc_command('quote',jsonb_build_object('data',d));raise exception 'FAIL cross owner customer';exception when invalid_parameter_value then null;end;
+ c2:=(public.tc_command('customer','{"data":{"name":"Cliente Dos"}}')->>'id')::uuid;
+ q2:=(public.tc_command('quote',jsonb_build_object('data',d||jsonb_build_object('customer_id',c2,'currency','USD')))->>'id')::uuid;
+ v:=public.tc_command('publish',jsonb_build_object('id',q2));
+ perform public.tc_command('customer',jsonb_build_object('id',c2,'data',jsonb_build_object('name','Nombre nuevo')));
+ set local role anon;
+ outcome:=public.tc_public_quote(v->>'token');if outcome->'snapshot'->'customer'->>'name'<>'Cliente Dos' then raise exception 'FAIL immutable snapshot';end if;
+ perform public.tc_send_pilot('Tester','tester@example.test','Quiero probar con un encargo ficticio.');
+ perform public.tc_send_feedback('public-quote','No entiendo el anticipo solicitado.','');
+ begin select count(*) into counted from public.tc_feedback;raise exception 'FAIL feedback readable';exception when insufficient_privilege then null;end;
+ begin perform public.tc_send_feedback('/p/secreto','Comentario de prueba','');raise exception 'FAIL screen token captured';exception when invalid_parameter_value then null;end;
+ begin select count(*) into counted from public.tc_public_versions;raise exception 'FAIL tokens readable';exception when insufficient_privilege then null;end;
+ set local role authenticated;
+ perform public.tc_command('revoke',jsonb_build_object('id',v->>'id'));
+ set local role anon;
+ begin perform public.tc_public_quote(v->>'token');raise exception 'FAIL revoked available';exception when invalid_parameter_value then null;end;
+ -- Expired token is visible as expired but cannot be decided.
+ reset role;
+ update public.tc_public_versions set status='pendiente',expires_on=(now() at time zone 'America/Argentina/Buenos_Aires')::date-1 where version_id=(v->>'id')::uuid;
+ set local role anon;
+ begin perform public.tc_public_quote(v->>'token','{"decision":"aceptado","name":"Cliente","confirmed":true}');raise exception 'FAIL expired accepted';exception when invalid_parameter_value then null;end;
+ -- Demo expiration cannot expose or mutate business after expiry.
+ reset role;
+ perform set_config('request.jwt.claim.sub','33333333-3333-4333-8333-333333333333',true);perform set_config('request.jwt.claims','{"is_anonymous":true}',true);
+ set local role authenticated;
+ outcome:=public.tc_command('setup','{"name":"Demo","industry":"Demo","country":"AR","timezone":"America/Argentina/Buenos_Aires","currency":"ARS"}');
+ if outcome->>'is_demo'<>'true' then raise exception 'FAIL demo marker';end if;
+ c2:=(public.tc_command('customer','{"data":{"name":"Demo cliente"}}')->>'id')::uuid;
+ q2:=(public.tc_command('quote',jsonb_build_object('data',d||jsonb_build_object('customer_id',c2)))->>'id')::uuid;
+ v:=public.tc_command('publish',jsonb_build_object('id',q2));
+ if exists(select 1 from public.tc_records where kind='metric') then raise exception 'FAIL demo in metrics';end if;
+ reset role;update public.tc_businesses set expires_at=now()-interval '1 hour' where owner_id='33333333-3333-4333-8333-333333333333';set local role authenticated;
+ select count(*) into counted from public.tc_businesses;if counted<>0 then raise exception 'FAIL expired RLS';end if;
+ begin perform public.tc_command('customer','{"data":{"name":"Tarde"}}');raise exception 'FAIL expired write';exception when invalid_parameter_value then null;end;
+ reset role;
+ perform public.tc_prune();
+ if exists(select 1 from public.tc_businesses where owner_id='33333333-3333-4333-8333-333333333333') then raise exception 'FAIL demo cleanup';end if;
+ if not exists(select 1 from public.tc_businesses where owner_id='11111111-1111-4111-8111-111111111111') then raise exception 'FAIL cleanup owner data';end if;
+ raise notice 'PASS: recorrido PostgreSQL, RLS de dos negocios, totales, snapshots, tokens, conflictos, conversión, cobros/reintentos/anulación, feedback y limpieza.';
+end $$;
+rollback;

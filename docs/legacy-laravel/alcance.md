@@ -1,3 +1,5 @@
+> Histórico de Laravel/MySQL. No acredita el estado de Next.js/Supabase. [Estado actual](../ESTADO_BETA.md).
+
 # Alcance y reglas de TrabajoClaro
 
 ## Recorrido

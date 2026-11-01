@@ -1,3 +1,5 @@
+> Actualización de arquitectura: la marca se conserva en Next.js; los componentes actuales están en `src/components/brand.js`. Las referencias a verificaciones Laravel describen la etapa anterior; ver [verificación de migración](VERIFICACION_MIGRACION.md).
+
 # TrabajoClaro · identidad de marca provisional
 
 **Nombre provisional:** TrabajoClaro.
@@ -24,7 +26,7 @@ El logotipo horizontal une el símbolo con **TrabajoClaro**, con lettering Manro
 | `--brand-paper` | `#f6f7f2` | Superficie clara cálida |
 | `--font-brand`, `--font-ui` | Manrope y respaldo de sistema | Tipografía compartida de marca/interfaz |
 
-Los tokens de UI existentes `--green`, `--ink` y `--paper` referencian los de marca, conservando la coherencia de botones/formularios. Se definen en [app.css](../resources/css/app.css); los SVG usan los mismos valores en su generador.
+Los tokens de UI existentes `--green`, `--ink` y `--paper` referencian los de marca, conservando la coherencia de botones/formularios. Se definen en [app.css](../src/app/globals.css); los SVG usan los mismos valores en su generador.
 
 Contraste calculado mediante luminancia sRGB:
 
@@ -83,13 +85,13 @@ No hay service worker, modo sin conexión ni función de instalación desarrolla
 
 ## Integración y uso
 
-- Componente reutilizable: [brand-logo.blade.php](../resources/views/components/brand-logo.blade.php).
-- Metadatos e iconos: [brand-meta.blade.php](../resources/views/components/brand-meta.blade.php), utilizado también en errores.
+- Componente reutilizable: [Brand](../src/components/brand.js).
+- Metadatos e iconos: [layout Next.js](../src/app/layout.js).
 - Encabezado de landing, acceso/registro, panel, demo y pantallas internas: logo horizontal sin eslogan.
 - Landing: eslogan HTML como título principal. Acceso/registro: lockup con eslogan HTML. Documentos públicos: marca en la cabecera de la web y versión compacta monocromática al imprimir.
 - Móvil: tamaño compacto, sin eslogan dentro del encabezado; no se estira el recurso. Presentaciones amplias: variante con eslogan.
 - Muestra local: ruta **`/marca`** de la aplicación. Incluye variantes sobre claro/oscuro, descarga SVG y vista nativa a 16/32/48/64 px. Es una ruta local del proyecto, no una URL pública desplegada.
-- Firma del desarrollador: [author-signature.blade.php](../resources/views/components/author-signature.blade.php), separada del símbolo/nombre del producto. Conserva el texto y enlace al portfolio existentes, también en el PDF.
+- Firma del desarrollador: [Author](../src/components/brand.js), separada del símbolo/nombre del producto. Conserva el texto y enlace al portfolio existentes, también en el PDF.
 
 Mantener proporciones originales, margen libre alrededor del símbolo (al menos 1/4 de su lado en usos aislados) y contraste. No añadir detalles al favicon ni comprimir el eslogan para que entre a la fuerza. Para impresión, utilizar la variante monocromática sobre blanco.
 

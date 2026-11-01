@@ -6,6 +6,25 @@ El código identifica la prueba como `2026.10-beta.2` en `config/beta.php`; ese 
 
 ## Sin publicar
 
+### Migración autorizada a Next.js y Supabase
+
+Agregados:
+
+- Aplicación Next.js/React para Vercel con Supabase Auth opcional Google/correo/anónimo, RPC PostgreSQL, RLS y migración SQL dedicada.
+- Recorrido portado: clientes, borradores/versiones/decisiones públicas, trabajos, cobros/saldos/anulación, panel, CSV, feedback, solicitudes de piloto y eventos separados de auditoría.
+- Pruebas de dinero, PostgreSQL real y Chromium móvil/escritorio; documentación de conexión, operación, estado y limitaciones.
+
+Correcciones:
+
+- Configuración de Vercel usa Next.js y `.next`; el build anterior detectaba Vite y esperaba `dist`.
+- Refresco sin desmontar el detalle que conserva el enlace recién publicado; reconocimiento de `/p` normalizado y fechas por zona del negocio.
+
+Cambios relevantes:
+
+- Laravel/MySQL se conserva como referencia en `legacy/laravel` y Git; no importación automática ni borrado de bases previas. Informes anteriores archivados.
+- Marca/favicons/Manrope/firma y su presencia visible en README conservados. Los enlaces compartidos nuevos usan token en fragmento para evitar enviarlo en la ruta a Vercel.
+- El código migrado no acredita Supabase Auth/Google/SMTP ni despliegue público configurados; PWA sigue pendiente. No nuevas funciones comerciales ni contratos pagos.
+
 ### Cierre documental de la primera beta
 
 - Agregado: `docs/ESTADO_BETA.md` con requisitos consolidados, evidencia local, pendientes, consulta técnica de feedback y guion de diez minutos.
@@ -60,7 +79,7 @@ Inventario del código existente, **no una afirmación de que todo se agregó en
 - Límites independientes por acción, privacidad en errores de enlaces y espera de disponibilidad al arrancar.
 - Navegación móvil, tarjetas en el presupuesto del cliente y controles de ítems/carga.
 
-Estas correcciones constan en los informes y el registro de la sesión; no se les asigna una fecha ni versión histórica nueva. Fuentes: [informe inicial](docs/verificacion.md) e [informe beta 2](docs/beta-2-verificacion.md).
+Estas correcciones constan en los informes y el registro de la sesión; no se les asigna una fecha ni versión histórica nueva. Fuentes: [informe inicial](docs/legacy-laravel/verificacion.md) e [informe beta 2](docs/legacy-laravel/beta-2-verificacion.md).
 
 ### Estado relevante
 

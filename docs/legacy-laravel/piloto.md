@@ -1,6 +1,8 @@
+> Histórico de Laravel/MySQL. No acredita el estado de Next.js/Supabase. [Estado actual](../ESTADO_BETA.md).
+
 # Prueba de primera beta
 
-**URL pública: todavía no disponible. PWA: pendiente, usar navegador normal con conexión.** El [guion de diez minutos, restricciones y estado consolidado](ESTADO_BETA.md#guion-exacto-de-diez-minutos) describe la entrega actual y los pasos exactos. Las instrucciones siguientes conservan la demostración breve y las preguntas de validación.
+**URL pública: todavía no disponible. PWA: pendiente, usar navegador normal con conexión.** El [guion de diez minutos, restricciones y estado consolidado](https://github.com/Xenov2030/TrabajoClaro/blob/3309445/docs/ESTADO_BETA.md#guion-exacto-de-diez-minutos) describe la entrega actual y los pasos exactos. Las instrucciones siguientes conservan la demostración breve y las preguntas de validación.
 
 # Demo de cinco minutos
 

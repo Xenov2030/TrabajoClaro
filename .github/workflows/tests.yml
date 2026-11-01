@@ -10,17 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          extensions: bcmath, mbstring, dom, curl, pdo_mysql, pdo_sqlite, intl, zip
-          coverage: none
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
-      - run: composer install --no-interaction --prefer-dist
-      - run: cp .env.example .env && php artisan key:generate
-      - run: npm ci && npm run build
-      - run: php artisan test
-      - run: vendor/bin/pint --test
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          PLAYWRIGHT_BUNDLED: '1'
+      - run: bash scripts/test-database.sh
+      - run: bash scripts/test-integration.sh
+        env:
+          PLAYWRIGHT_BUNDLED: '1'

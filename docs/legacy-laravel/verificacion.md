@@ -1,3 +1,5 @@
+> Histórico de Laravel/MySQL. No acredita el estado de Next.js/Supabase. [Estado actual](../ESTADO_BETA.md).
+
 # Informe de implementación y verificación
 
 Verificación local: 31 de octubre de 2026. Sin despliegue, publicación externa, commit ni push.

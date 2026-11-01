@@ -39,3 +39,10 @@ Thumbs.db
 *.sql.gz
 *.sqlite
 *.sqlite3
+
+/.next/
+/out/
+*.tsbuildinfo
+next-env.d.ts
+!supabase/migrations/*.sql
+!tests/database/*.sql

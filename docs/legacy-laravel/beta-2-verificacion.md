@@ -1,3 +1,5 @@
+> Histórico de Laravel/MySQL. No acredita el estado de Next.js/Supabase. [Estado actual](../ESTADO_BETA.md).
+
 # Ampliación beta 2 · verificación y entrega
 
 Versión: **2026.10-beta.2**. Fecha de revisión: 31/10/2026 (Argentina).

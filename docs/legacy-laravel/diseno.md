@@ -1,3 +1,5 @@
+> Histórico de Laravel/MySQL. No acredita el estado de Next.js/Supabase. [Estado actual](../ESTADO_BETA.md).
+
 # Sistema visual de TrabajoClaro · beta 2
 
 Identidad propia: superficie clara cálida, texto oscuro y verde profundo. Manrope variable alojada localmente con licencia OFL y respaldo de sistema; jerarquía, aire y acciones claras antes que gráficos decorativos.
@@ -24,4 +26,4 @@ En celular se apilan formularios y tarjetas; el presupuesto público usa tarjeta
 
 Revisión realizada en Chromium a 360×800 y 1440×1000: landing, panel, editor, presupuesto público, feedback cargando/confirmado y registro. Los recorridos comprueban ancho del documento y errores JavaScript. No se verificaron Safari, Firefox, zoom asistivo exhaustivo ni dispositivos físicos; quedan para el piloto conectado a un dominio real.
 
-La identidad gráfica, variantes SVG, favicon, tipografía y límites de la revisión del nombre están documentados en [MARCA.md](MARCA.md). La muestra local se abre en `/marca`.
+La identidad gráfica, variantes SVG, favicon, tipografía y límites de la revisión del nombre están documentados en [MARCA.md](https://github.com/Xenov2030/TrabajoClaro/blob/3309445/docs/MARCA.md). La muestra local se abre en `/marca`.
