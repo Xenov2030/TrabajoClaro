@@ -21,7 +21,7 @@ La versión Laravel/MySQL se conserva en [legacy/laravel](legacy/laravel) y en e
 
 El enlace de rama `trabajo-claro-git-main-xenov.vercel.app` redirigió al login de Vercel; usar el dominio público anterior para testers. La disponibilidad continua, cuotas y suspensión del proveedor siguen sin comprobarse.
 
-**Paso a paso:** [conectar Supabase y Vercel](docs/DESPLIEGUE_SUPABASE_VERCEL.md). Requiere un proyecto Supabase dedicado, ejecutar SQL, configurar autenticación y dos variables públicas de build. Google permite iniciar sesión; **la base PostgreSQL de Supabase guarda los datos**, no el Drive de cada persona.
+**Paso a paso:** [conectar Supabase y Vercel](docs/DESPLIEGUE_SUPABASE_VERCEL.md). Para habilitar el proveedor pendiente, seguir [acceso con Google](docs/GOOGLE.md): la prueba pública del botón devolvió proveedor deshabilitado; todavía no hay login Google completo verificado. Requiere un proyecto Supabase dedicado, ejecutar SQL, configurar autenticación y dos variables públicas de build. Google permite iniciar sesión; **la base PostgreSQL de Supabase guarda los datos**, no el Drive de cada persona.
 
 La aplicación no usa claves privilegiadas de Supabase. Sin configuración muestra errores explícitos; no guarda una maqueta ni simula una demo exitosa. Revisar planes/cuotas/pausas/costos actuales antes de activar servicios. No se contrataron servicios ni se modificó Jornadapp.
 

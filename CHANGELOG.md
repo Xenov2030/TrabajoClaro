@@ -4,6 +4,12 @@ Primer registro documental del estado observado. **No se reconstruye una cronolo
 
 El código Next.js identifica la beta como `0.2.0-beta.1`. El identificador Laravel `2026.10-beta.2` pertenece a la etapa histórica conservada en `legacy/laravel`. Ninguno acredita por sí solo una versión etiquetada.
 
+## 2026-11-01 · Diagnóstico y configuración de Google
+
+- Agregado: `docs/GOOGLE.md` con cliente OAuth web, callbacks distintos Google→Supabase y Supabase→TrabajoClaro, configuración segura y guion de verificación.
+- Corregido: documentación identifica el bloqueo observado, HTTP 400 de Supabase por proveedor deshabilitado. El botón ya invoca OAuth, pero el acceso real sigue pendiente.
+- Cambio relevante: no se crearon credenciales ni se modificaron cuentas/proveedores externos; no se incorporan secretos al repositorio ni se declara Google funcional.
+
 ## 2026-11-01 · Registro de verificación pública
 
 Agregados:

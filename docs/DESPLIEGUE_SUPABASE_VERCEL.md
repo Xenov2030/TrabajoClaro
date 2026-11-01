@@ -19,6 +19,8 @@ No se creó un proyecto, contrató un servicio ni modificó la base de Jornadapp
 4. Para «Probar demo», habilitar **Anonymous Sign-ins**, revisar límites y protección contra abuso. Cada visitante recibe un usuario anónimo diferente. La demo no comparte una contraseña ni privilegios administrativos.
 5. Opcional Google: habilitar el proveedor Google en Supabase; crear/configurar un cliente OAuth web en Google Cloud y usar **la URL de callback de Supabase que muestra su consola** como redirect autorizado. Client secret solo dentro del proveedor, nunca en `NEXT_PUBLIC_*`. No reutilizar ni modificar a ciegas la configuración de Jornadapp. En modo de pruebas de Google, revisar quién está autorizado como tester.
 
+Guía específica con ambos callbacks, cliente OAuth y pruebas: [conectar Google](GOOGLE.md). El botón público se comprobó el 2026-11-01 y Supabase indicó proveedor deshabilitado; habilitarlo no exige redeploy.
+
 ## 3. Configurar Vercel
 
 1. Proyecto existente `trabajo-claro`, repositorio `Xenov2030/TrabajoClaro`, rama `main`, Root Directory raíz.

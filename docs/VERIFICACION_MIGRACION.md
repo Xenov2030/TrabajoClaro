@@ -68,3 +68,7 @@ Incidencias del despliegue identificadas: el enlace de rama redirigía al login 
 ## Pendiente, sin equivalencias falsas
 
 No se verificaron registro/login reales con correo y contraseña, confirmación/entrega de correo, OAuth Google, cuotas/suspensión/disponibilidad continua, persistencia tras reinicio o redeploy del proveedor, cron alojado, backup/restauración de Supabase, instalación PWA/standalone, Safari/Firefox, dispositivos físicos, carga concurrente, auditoría independiente o recorrido completo solo con teclado. Las pruebas Laravel y su restauración MySQL quedan históricas y no sustituyen esas comprobaciones. La PWA continúa sin implementar: manifest `display: browser`, sin `id` explícito ni icono maskable/service worker.
+
+## Diagnóstico de Google · 2026-11-01
+
+Se pulsó «Continuar con Google» desde `/login` en el dominio público, sin ingresar una cuenta Google. Supabase respondió HTTP 400 en `/auth/v1/authorize`, con `Unsupported provider: provider is not enabled`. Esto confirma que el botón inicia el flujo, pero el proveedor sigue deshabilitado. [Configuración y prueba manual](GOOGLE.md). No se afirma que funcionen consentimiento, retorno o acceso real.
