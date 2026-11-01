@@ -106,9 +106,7 @@ test("el diálogo se solicita solo al pulsar y no insiste al cancelar (evento de
     );
     expect(await page.evaluate(() => window.promptCalls)).toBe(1);
     await expect(button).toHaveCount(0);
-    await expect(
-        page.getByRole("link", { name: "Instalar TrabajoClaro", exact: true }),
-    ).toBeVisible();
+    await expect(page.getByText("Este navegador todavía no ofrece un diálogo",{exact:false})).toBeVisible();
 });
 
 test("instrucciones iOS y estado standalone sin prometer instalación nativa (emulación)", async ({

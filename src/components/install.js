@@ -112,9 +112,9 @@ export function InstallProvider({ children }) {
         </InstallContext.Provider>
     );
 }
-export function InstallAction() {
+export function InstallAction({instructions = false}) {
     const c = useContext(InstallContext);
-    if (c.installed) return null;
+    if (c.installed || (instructions && !c.available)) return null;
     return c.available ? (
         <button
             type="button"
@@ -157,7 +157,7 @@ export function InstallPage() {
                 </p>
             ) : (
                 <>
-                    <InstallAction />
+                    <InstallAction instructions />
                     {!c.available && (
                         <p>
                             Este navegador todavía no ofrece un diálogo de
