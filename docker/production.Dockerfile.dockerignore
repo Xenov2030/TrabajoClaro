@@ -1,0 +1,17 @@
+**/.git
+.git
+.env
+.env.*
+!.env.example
+node_modules
+.composer-local
+storage/logs/*
+storage/framework/views/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+bootstrap/cache/*.php
+test-results
+playwright-report
+tests
+.github
+docs

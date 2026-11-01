@@ -1,0 +1,16 @@
+{
+    log default {
+        format filter {
+            wrap json
+            fields {
+                request delete
+                uri delete
+                headers delete
+            }
+        }
+    }
+}
+{$BETA_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy app:80
+}

@@ -1,0 +1,4 @@
+# Solo validación HTTP local de la imagen de producción. No es un preview público.
+services:
+  app:
+    ports: ["127.0.0.1:8088:80"]

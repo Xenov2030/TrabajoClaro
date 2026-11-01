@@ -1,0 +1,81 @@
+name: trabajoclaro-beta
+x-app: &app
+  image: trabajoclaro-beta:${APP_RELEASE:-2026.10-beta.2}
+  build:
+    context: .
+    dockerfile: docker/production.Dockerfile
+  environment:
+    APP_ENV: production
+    APP_DEBUG: "false"
+    APP_KEY: ${APP_KEY:?Definí APP_KEY de producción}
+    APP_URL: https://${BETA_DOMAIN:?Definí el dominio autorizado}
+    APP_RELEASE: ${APP_RELEASE:-2026.10-beta.2}
+    APP_LOCALE: es
+    APP_FALLBACK_LOCALE: es
+    DB_CONNECTION: mysql
+    DB_HOST: db
+    DB_DATABASE: trabajoclaro_beta
+    DB_USERNAME: trabajoclaro
+    DB_PASSWORD: ${DB_PASSWORD:?Definí DB_PASSWORD de producción}
+    SESSION_DRIVER: database
+    SESSION_SECURE_COOKIE: "true"
+    SESSION_ENCRYPT: "true"
+    SESSION_SAME_SITE: lax
+    CACHE_STORE: database
+    QUEUE_CONNECTION: sync
+    LOG_CHANNEL: stderr
+    LOG_LEVEL: warning
+    # Solo la red privada dedicada donde está el proxy TLS.
+    TRUSTED_PROXIES: 172.30.84.0/24
+  volumes:
+    - app-storage:/var/www/html/storage
+  networks: [private]
+  depends_on:
+    db:
+      condition: service_healthy
+services:
+  app:
+    <<: *app
+    restart: unless-stopped
+  scheduler:
+    <<: *app
+    command: ["php", "artisan", "schedule:work"]
+    restart: unless-stopped
+    user: www-data
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: trabajoclaro_beta
+      MYSQL_USER: trabajoclaro
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Definí DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Definí DB_ROOT_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks: [private]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 3s
+      retries: 40
+  edge:
+    image: caddy:2
+    environment:
+      BETA_DOMAIN: ${BETA_DOMAIN:?Definí el dominio autorizado}
+    ports: ["80:80", "443:443", "443:443/udp"]
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks: [private]
+    depends_on: [app]
+    restart: unless-stopped
+networks:
+  private:
+    ipam:
+      config:
+        - subnet: 172.30.84.0/24
+volumes:
+  app-storage:
+  mysql-data:
+  caddy-data:
+  caddy-config:

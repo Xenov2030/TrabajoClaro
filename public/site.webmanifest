@@ -1,0 +1,25 @@
+{
+  "name": "TrabajoClaro",
+  "short_name": "TrabajoClaro",
+  "description": "Cada trabajo en orden. Cada cobro, claro.",
+  "lang": "es-AR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#f6f7f2",
+  "theme_color": "#16634f",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

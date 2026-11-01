@@ -1,0 +1,8 @@
+{
+  "canvas": 64,
+  "frame_path": "M44 12H24c-6.627 0-12 5.373-12 12v16c0 6.627 5.373 12 12 12h18v-8H24a2 2 0 0 1-2-2V24a2 2 0 0 1 2-2h20V12Z",
+  "step_path": "M30 30h14V20h10v20H30V30Z",
+  "horizontal_width": 315.95,
+  "horizontal_height": 64,
+  "tagline": "Cada trabajo en orden. Cada cobro, claro."
+}

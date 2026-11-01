@@ -1,0 +1,9 @@
+vendor
+node_modules
+.git
+.env
+storage/logs/*
+
+.composer-local
+test-results
+playwright-report
