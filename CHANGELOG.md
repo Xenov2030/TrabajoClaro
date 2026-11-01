@@ -4,6 +4,23 @@ Primer registro documental del estado observado. **No se reconstruye una cronolo
 
 El código Next.js identifica la beta como `0.2.0-beta.1`. El identificador Laravel `2026.10-beta.2` pertenece a la etapa histórica conservada en `legacy/laravel`. Ninguno acredita por sí solo una versión etiquetada.
 
+## 2026-11-01 · Instalación web progresiva
+
+Agregados:
+
+- Botón de instalación por evento nativo y acción del usuario, instrucciones responsive `/instalar`, detección iOS/Android/escritorio y modo aplicación sin insistencia.
+- Manifest con id estable, standalone y maskable 192/512 con margen seguro; metadatos Apple y worker de red sin caché de documentos, Auth, datos ni escrituras.
+- Pruebas de privacidad del worker, eventos de instalación/actualización e instrucciones; guía de instalación y límites verificables.
+
+Correcciones:
+
+- El retorno de acceso deja de permanecer en «Procesando acceso» después de recibir sesión y redirige al negocio. Sin sesión informa cómo reintentar.
+
+Cambios relevantes:
+
+- Sigue requiriendo conexión: sin offline, APK, sincronización ni recargas forzadas de formularios.
+- Chromium local aprobó criterios de instalabilidad, pero rechazó instalar con `kWebAppDisabled`; instalación real/standalone y acceso desde el icono permanecen pendientes de prueba manual. No se sustituyen por eventos simulados.
+
 ## 2026-11-01 · Diagnóstico y configuración de Google
 
 - Agregado: `docs/GOOGLE.md` con cliente OAuth web, callbacks distintos Google→Supabase y Supabase→TrabajoClaro, configuración segura y guion de verificación.

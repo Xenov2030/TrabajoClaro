@@ -79,9 +79,9 @@ Los nueve SVG son vectores reales, sin mapas de bits incrustados ni referencias 
 | [apple-touch-icon.png](../public/apple-touch-icon.png) | PNG de 180×180 |
 | [icon-192.png](../public/icon-192.png) | PNG de 192×192 |
 | [icon-512.png](../public/icon-512.png) | PNG de 512×512 |
-| [site.webmanifest](../public/site.webmanifest) | JSON de identificación, iconos y `display: browser` |
+| [site.webmanifest](../public/site.webmanifest) | JSON con id estable, iconos any/maskable y `display: standalone` |
 
-No hay service worker, modo sin conexión ni función de instalación desarrollada. El manifest aporta metadatos y no se presenta como una PWA instalable. Los iconos son rasterizaciones/codificaciones reales; no se renombró un archivo para simular otro formato.
+La implementación actual incorpora instalación PWA y manifest standalone, con iconos maskable 192/512 y worker sin caché privada ni modo sin conexión. Su instalación real sigue pendiente de comprobación física; ver [PWA](PWA.md). Los iconos son rasterizaciones/codificaciones reales; no se renombró un archivo para simular otro formato.
 
 ## Integración y uso
 
@@ -133,3 +133,5 @@ Se conserva **TrabajoClaro como nombre provisional**. Antes de consolidarlo o in
 - Comprobados con parsers: SVG válidos y trazados dentro del viewBox; PNG con firma binaria y dimensiones reales; ICO con sus tres tamaños. La fuente se abrió con fontTools y su hash coincide con la procedencia registrada.
 - Contrastes de paleta calculados; foco visible y firma del autor conservados.
 - No se verificaron la barra de pestañas en todos los navegadores, una pantalla de inicio iOS/Android física, todos los lectores PDF, una certificación de accesibilidad ni una URL pública. No se puede concluir disponibilidad legal del nombre a partir de estas comprobaciones.
+
+Iconos de instalación actualizados: [maskable 192](../public/icon-192-maskable.png) y [maskable 512](../public/icon-512-maskable.png), con fondo opaco verde y símbolo esencial dentro de la zona segura central.

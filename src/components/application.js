@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Brand, Author } from "./brand";
+import { InstallAction, InstallPage } from "./install";
 import { cloud, cloudConfig, command } from "../lib/cloud.mjs";
 import {
     money,
@@ -45,6 +46,15 @@ export default function Application() {
             }
             const { data, error } = await cloud().auth.getSession();
             if (error) throw error;
+            if (window.location.pathname === "/auth/callback") {
+                if (data.session) {
+                    window.location.replace("/app");
+                    return;
+                }
+                throw Error(
+                    "No se completó el acceso. Volvé a Ingresar e iniciá la autorización desde este navegador.",
+                );
+            }
             setSession(data.session);
             if (data.session) {
                 const b = await cloud()
@@ -619,6 +629,8 @@ export default function Application() {
                     <Auth register={path === "/register"} />
                 ) : path === "/feedback" ? (
                     <Feedback />
+                ) : path === "/instalar" ? (
+                    <InstallPage />
                 ) : path === "/marca" ? (
                     <BrandPage />
                 ) : path === "/beta" ? (
@@ -643,10 +655,17 @@ export default function Application() {
                         <a href="/">Volver al inicio</a>
                     </section>
                 ) : path === "/auth/callback" ? (
-                    <p>
-                        Procesando acceso.{" "}
-                        <a href="/app">Continuar a mi negocio</a>
-                    </p>
+                    <section className="card">
+                        <h1>Acceso a TrabajoClaro</h1>
+                        <p>
+                            Si la autorización terminó, te llevaremos a tu
+                            negocio. Si no pudimos completar el acceso, iniciá
+                            el proceso nuevamente.
+                        </p>
+                        <a className="button" href="/login">
+                            Volver a ingresar
+                        </a>
+                    </section>
                 ) : path === "/" ? (
                     <Landing demo={demo} />
                 ) : (
@@ -661,6 +680,7 @@ export default function Application() {
                     <span>
                         TrabajoClaro · Beta {RELEASE} ·{" "}
                         <a href="/beta">Condiciones de prueba</a> ·{" "}
+                        <a href="/instalar">Instalar app</a> ·{" "}
                         <a href="/feedback">Enviar feedback</a>
                     </span>
                     <Author />
@@ -849,6 +869,7 @@ function Landing({ demo }) {
                         <a className="button secondary" href="/register">
                             Crear cuenta de prueba
                         </a>
+                        <InstallAction />
                     </div>
                 </div>
                 <div className="hero-demo">

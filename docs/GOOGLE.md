@@ -56,7 +56,7 @@ El titular o un tester autorizado debe usar su propia cuenta Google; el asistent
 
 1. En ventana privada, abrir https://trabajo-claro-orpin.vercel.app/login y pulsar «Continuar con Google».
 2. Debe aparecer el selector/consentimiento de Google, no el error de proveedor deshabilitado. En modo Testing, usar una cuenta agregada como tester.
-3. Autorizar identidad básica y comprobar que vuelve a TrabajoClaro. Si aparece el enlace «Continuar a mi negocio» en `/auth/callback`, usarlo para abrir `/app`.
+3. Autorizar identidad básica y comprobar que vuelve a TrabajoClaro. La versión actual redirige automáticamente a `/app` después de obtener sesión; si falla ofrece reintentar desde el acceso.
 4. Configurar negocio si la cuenta es nueva, crear un cliente/presupuesto ficticio y salir.
 5. Volver a ingresar con la misma cuenta y comprobar que conserva el negocio y sus datos. Una segunda cuenta debe tener su propio negocio; no heredar información de otra demo o cuenta.
 6. Probar cancelar el consentimiento sin quedar conectado a la cuenta anterior. Revisar resultados y comunicar solo el error, nunca la URL de retorno completa, códigos, tokens o secretos.
@@ -72,3 +72,5 @@ Hasta completar estos pasos, registrar **Google configurado, pendiente de verifi
 | Usuario no autorizado / acceso bloqueado | Audience/Testing y lista Test users, estado de publicación o políticas de la cuenta Google. |
 | Vuelve al dominio equivocado | Site URL y Redirect URLs de Supabase; dominio desde el que se inició el flujo. |
 | Fallo de código PKCE o sesión | Mismo navegador/contexto y almacenamiento habilitado; no copiar el enlace de callback a otro dispositivo. Revisar error sin publicar códigos/tokens. |
+
+Actualización posterior: el titular mostró el retorno `/auth/callback` con sesión detectada tras configurar Google, por lo que el diagnóstico de proveedor deshabilitado anterior es histórico. No se verificó de forma independiente el ingreso completo con una cuenta Google. La pantalla de retorno fue mejorada para redirigir al negocio tras recibir sesión.

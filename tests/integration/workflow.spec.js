@@ -8,7 +8,8 @@ test("recorrido real PostgreSQL desde sesión de prueba, sin afirmar Auth alojad
         (s) => localStorage.setItem("sb-127-auth-token", JSON.stringify(s)),
         session(),
     );
-    await page.goto("/app");
+    await page.goto("/auth/callback");
+    await expect(page).toHaveURL(/\/app$/);
     await expect(
         page.getByRole("heading", { name: "Qué requiere atención" }),
     ).toBeVisible();

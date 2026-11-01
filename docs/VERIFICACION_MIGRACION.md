@@ -67,8 +67,12 @@ Incidencias del despliegue identificadas: el enlace de rama redirigía al login 
 
 ## Pendiente, sin equivalencias falsas
 
-No se verificaron registro/login reales con correo y contraseña, confirmación/entrega de correo, OAuth Google, cuotas/suspensión/disponibilidad continua, persistencia tras reinicio o redeploy del proveedor, cron alojado, backup/restauración de Supabase, instalación PWA/standalone, Safari/Firefox, dispositivos físicos, carga concurrente, auditoría independiente o recorrido completo solo con teclado. Las pruebas Laravel y su restauración MySQL quedan históricas y no sustituyen esas comprobaciones. La PWA continúa sin implementar: manifest `display: browser`, sin `id` explícito ni icono maskable/service worker.
+No se verificaron registro/login reales con correo y contraseña, confirmación/entrega de correo, OAuth Google, cuotas/suspensión/disponibilidad continua, persistencia tras reinicio o redeploy del proveedor, cron alojado, backup/restauración de Supabase, instalación PWA/standalone, Safari/Firefox, dispositivos físicos, carga concurrente, auditoría independiente o recorrido completo solo con teclado. Las pruebas Laravel y su restauración MySQL quedan históricas y no sustituyen esas comprobaciones. Ese estado de PWA fue reemplazado por la implementación posterior descrita en [PWA](PWA.md): pruebas de interfaz/criterios y privacidad realizadas; instalación nativa/standalone real aún pendiente.
 
 ## Diagnóstico de Google · 2026-11-01
 
 Se pulsó «Continuar con Google» desde `/login` en el dominio público, sin ingresar una cuenta Google. Supabase respondió HTTP 400 en `/auth/v1/authorize`, con `Unsupported provider: provider is not enabled`. Esto confirma que el botón inicia el flujo, pero el proveedor sigue deshabilitado. [Configuración y prueba manual](GOOGLE.md). No se afirma que funcionen consentimiento, retorno o acceso real.
+
+## Instalación PWA · 2026-11-01
+
+Se implementaron controles nativos condicionados por disponibilidad, instrucciones `/instalar`, manifest con identidad estable/standalone, maskable y worker de red sin caché privada/offline. Las pruebas emulan eventos para verificar interacción, no certifican instalación real. Un perfil persistente de Chromium devolvió cero errores de instalabilidad, pero `PWA.install` falló con `kWebAppDisabled`; no se comprobó apertura standalone ni login/logout desde una aplicación instalada. El callback ahora redirige automáticamente al negocio al recibir sesión; prueba local con DB y sesión preemitida, no un ingreso Google independiente. [Detalle y guion manual](PWA.md).

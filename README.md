@@ -11,7 +11,7 @@
 
 Aplicación para pequeños negocios de servicios y fabricación por encargo: cliente → presupuesto → aprobación → trabajo → cobro. Busca reunir alcance acordado, próximas acciones y saldos. La utilidad y disposición a pagar son hipótesis pendientes de validar; no hay métricas comerciales, usuarios ni testimonios acreditados.
 
-**Autor:** [Nicolas Aguirres](https://nicolasaguirrescode.com/). **Estado:** beta pública con recorrido principal verificado en Next.js + Supabase, identificador `0.2.0-beta.1`; no versión estable ni PWA instalada verificada. Última revisión: 2026-11-01 (Argentina).
+**Autor:** [Nicolas Aguirres](https://nicolasaguirrescode.com/). **Estado:** beta pública con recorrido principal verificado en Next.js + Supabase, identificador `0.2.0-beta.1`; no versión estable; instalación PWA implementada con verificación nativa aún parcial. Última revisión: 2026-11-01 (Argentina).
 
 La versión Laravel/MySQL se conserva en [legacy/laravel](legacy/laravel) y en el historial Git; las pruebas y procedimientos anteriores están en [docs/legacy-laravel](docs/legacy-laravel). **Sus resultados no acreditan esta nueva arquitectura.** No se eliminaron ni importaron automáticamente las bases/volúmenes MySQL existentes.
 
@@ -21,7 +21,7 @@ La versión Laravel/MySQL se conserva en [legacy/laravel](legacy/laravel) y en e
 
 El enlace de rama `trabajo-claro-git-main-xenov.vercel.app` redirigió al login de Vercel; usar el dominio público anterior para testers. La disponibilidad continua, cuotas y suspensión del proveedor siguen sin comprobarse.
 
-**Paso a paso:** [conectar Supabase y Vercel](docs/DESPLIEGUE_SUPABASE_VERCEL.md). Para habilitar el proveedor pendiente, seguir [acceso con Google](docs/GOOGLE.md): la prueba pública del botón devolvió proveedor deshabilitado; todavía no hay login Google completo verificado. Requiere un proyecto Supabase dedicado, ejecutar SQL, configurar autenticación y dos variables públicas de build. Google permite iniciar sesión; **la base PostgreSQL de Supabase guarda los datos**, no el Drive de cada persona.
+**Paso a paso:** [conectar Supabase y Vercel](docs/DESPLIEGUE_SUPABASE_VERCEL.md). Para configurar o revisar el proveedor, seguir [acceso con Google](docs/GOOGLE.md). El titular mostró el retorno con sesión tras configurarlo; todavía falta una comprobación independiente completa de Google. Requiere un proyecto Supabase dedicado, ejecutar SQL, configurar autenticación y dos variables públicas de build. Google permite iniciar sesión; **la base PostgreSQL de Supabase guarda los datos**, no el Drive de cada persona.
 
 La aplicación no usa claves privilegiadas de Supabase. Sin configuración muestra errores explícitos; no guarda una maqueta ni simula una demo exitosa. Revisar planes/cuotas/pausas/costos actuales antes de activar servicios. No se contrataron servicios ni se modificó Jornadapp.
 
@@ -45,9 +45,13 @@ La aplicación no usa claves privilegiadas de Supabase. Sin configuración muest
 | Feedback | RPC de pantalla/descripción/contacto opcional/versión; sin adjuntos ni bandeja administrativa. No captura completa de formularios. |
 | Solicitud de piloto y eventos mínimos de producto | Portados: almacenamiento de solicitudes sin correo automático; eventos separados de auditoría y demos excluidas. SQL probado, sin métricas comerciales acreditadas. |
 | Perfil/contraseña/recuperación/baja/guía retomable | Pendientes. Configuración edita el negocio, no perfil personal. |
-| PWA | **Pendiente**. Iconos/manifest existentes con `display: browser`; no instalación standalone, maskable, service worker ni offline. |
+| PWA | **Implementada, verificación parcial**. Botón nativo cuando el navegador lo habilita, instrucciones `/instalar`, manifest standalone y maskable. Worker sin caché de datos ni offline. Criterios Chromium aprobados; instalación real rechazada por el entorno (`kWebAppDisabled`), pendiente prueba física. |
 
 Detalle de requisitos y evidencia: [ESTADO_BETA](docs/ESTADO_BETA.md). IA, facturación fiscal, suscripciones, pagos integrados, inventario, contabilidad, nómina, marketplace, chat y apps nativas siguen fuera de la primera beta.
+
+## Instalar como aplicación web
+
+Abrí [Instalar TrabajoClaro](https://trabajo-claro-orpin.vercel.app/instalar). En navegadores compatibles el botón solicita el diálogo nativo tras pulsarlo; en los demás se muestran instrucciones para agregar el icono. Se conserva el navegador normal. **Necesita conexión; no es un APK ni ofrece trabajo offline.** [Implementación, pruebas y límites](docs/PWA.md): la instalación nativa y el ingreso desde la app instalada aún requieren prueba manual; no se declaran terminados solo por tener manifest/iconos.
 
 ## Instalación local
 

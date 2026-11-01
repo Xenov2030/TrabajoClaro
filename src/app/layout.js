@@ -1,8 +1,14 @@
 import "./globals.css";
+import { InstallProvider } from "../components/install";
 export const metadata = {
     title: { default: "TrabajoClaro · Beta", template: "%s · TrabajoClaro" },
     description: "Cada trabajo en orden. Cada cobro, claro.",
     applicationName: "TrabajoClaro",
+    appleWebApp: {
+        capable: true,
+        title: "TrabajoClaro",
+        statusBarStyle: "default",
+    },
     manifest: "/site.webmanifest",
     icons: {
         icon: [
@@ -21,7 +27,9 @@ export const viewport = {
 export default function Layout({ children }) {
     return (
         <html lang="es-AR">
-            <body>{children}</body>
+            <body>
+                <InstallProvider>{children}</InstallProvider>
+            </body>
         </html>
     );
 }
